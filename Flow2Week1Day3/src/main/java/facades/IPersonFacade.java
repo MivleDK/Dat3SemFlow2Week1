@@ -2,14 +2,14 @@ package facades;
 
 import dto.PersonDTO;
 import dto.PersonsDTO;
-import java.util.List;
+import exceptions.PersonNotFoundException;
 
 public interface IPersonFacade {
 
     public PersonDTO addPerson(String name, String lName, String phone);
-    public PersonDTO deletePerson(int id);
-    public PersonDTO getPerson(int id);
+    public PersonDTO deletePerson(int id) throws PersonNotFoundException;
+    public PersonDTO getPerson(int id) throws PersonNotFoundException;
     public PersonsDTO getAllPersons();
-    public PersonDTO editPerson(PersonDTO p);
+    public PersonDTO editPerson(PersonDTO p) throws PersonNotFoundException;
     
 }

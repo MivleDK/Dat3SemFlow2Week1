@@ -3,6 +3,7 @@ package facades;
 import dto.PersonDTO;
 import dto.PersonsDTO;
 import entities.Person;
+import exceptions.PersonNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -47,7 +48,7 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public PersonDTO getPerson(int id) {
+    public PersonDTO getPerson(int id) throws PersonNotFoundException{
         EntityManager em = emf.createEntityManager();
         try {
             Person p = em.find(Person.class, id);
@@ -104,7 +105,7 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public PersonDTO deletePerson(int id) {
+    public PersonDTO deletePerson(int id) throws PersonNotFoundException {
         EntityManager em = emf.createEntityManager();
         PersonDTO p = getPerson(id);
 
