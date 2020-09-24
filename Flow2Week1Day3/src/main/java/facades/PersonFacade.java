@@ -1,6 +1,7 @@
 package facades;
 
 import dto.PersonDTO;
+import dto.PersonsDTO;
 import entities.Person;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,15 +58,13 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public List<PersonDTO> getAllPersons() {
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p", Person.class);
-        List<Person> persons = query.getResultList();
-        List<PersonDTO> personDTOs = new ArrayList();
-        persons.forEach((Person person) -> {
-            personDTOs.add(new PersonDTO(person));
-        });
-        return personDTOs;
+    public PersonsDTO getAllPersons() {
+        EntityManager em = getEntityManager();
+        try {   
+            return new PersonsDTO(em.createQuery("SELECT p FROM Person p", Person.class).getResultList());
+        } finally {
+            em.close();
+        }
     }
 
     @Override

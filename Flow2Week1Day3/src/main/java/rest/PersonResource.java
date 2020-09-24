@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.PersonDTO;
+import dto.PersonsDTO;
 import utils.EMF_Creator;
 import facades.PersonFacade;
 import javax.persistence.EntityManagerFactory;
@@ -39,12 +40,14 @@ public class PersonResource {
         return "{\"count\":" + count + "}";
     }
 
+    
     @Path("/all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllPersons() {
-        return Response.ok().entity(GSON.toJson(FACADE.getAllPersons())).build();
-    }
+    public String getAlllPersons() {
+        PersonsDTO persons = FACADE.getAllPersons();
+        return GSON.toJson(persons);
+    }    
 
     @Path("/{id}")
     @GET
