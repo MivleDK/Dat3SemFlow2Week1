@@ -1,5 +1,6 @@
 package facades;
 
+import entities.Address;
 import entities.Person;
 import utils.EMF_Creator;
 import javax.persistence.EntityManager;
@@ -23,8 +24,8 @@ public class PersonFacadeTest {
 
     @BeforeAll
     public static void setUpClass() {
-       emf = EMF_Creator.createEntityManagerFactoryForTest();
-       facade = PersonFacade.getPersonFacade(emf);
+        emf = EMF_Creator.createEntityManagerFactoryForTest();
+        facade = PersonFacade.getPersonFacade(emf);
     }
 
     @AfterAll
@@ -38,10 +39,15 @@ public class PersonFacadeTest {
     public void setUp() {
         EntityManager em = emf.createEntityManager();
         try {
+
+            Address a1 = new Address("Grækergade 2", 2000, "Olympus");
+            Address a2 = new Address("Strandgade", 1000, "Algebraby");
+            Address a3 = new Address("Styxvej 13", 0000, "Underby");
+
             em.getTransaction().begin();
-            em.persist(new Person("John", "Johnnegut", "12345678"));
-            em.persist(new Person("Kirsten", "Sigaard", "12345665"));
-            em.persist(new Person("Bubber", "Svingergut", "64796413"));
+            em.persist(new Person("John", "Johnnegut", "12345678", a1));
+            em.persist(new Person("Kirsten", "Sigaard", "12345665", a2));
+            em.persist(new Person("Bubber", "Svingergut", "64796413", a3));
             em.getTransaction().commit();
         } finally {
             em.close();

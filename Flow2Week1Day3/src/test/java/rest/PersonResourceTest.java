@@ -1,5 +1,6 @@
 package rest;
 
+import entities.Address;
 import entities.Person;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
@@ -63,10 +64,15 @@ public class PersonResourceTest {
     //TODO -- Make sure to change the EntityClass used below to use YOUR OWN (renamed) Entity class
     @BeforeEach
     public void setUp() {
+        
+        Address a1 = new Address("Grækergade 2", 2000, "Olympus");
+        Address a2 = new Address("Strandgade", 1000, "Algebraby");
+        Address a3 = new Address("Styxvej 13", 0000, "Underby");        
+        
         EntityManager em = emf.createEntityManager();
-        p1 = new Person("John", "Johnnegut", "12345678");
-        p2 = new Person("Kirsten", "Sigaard", "12345665");
-        p3 = new Person("Bubber", "Svingergut", "64796413");
+        p1 = new Person("John", "Johnnegut", "12345678", a1);
+        p2 = new Person("Kirsten", "Sigaard", "12345665", a2);
+        p3 = new Person("Bubber", "Svingergut", "64796413", a3);
 
         try {
             em.getTransaction().begin();

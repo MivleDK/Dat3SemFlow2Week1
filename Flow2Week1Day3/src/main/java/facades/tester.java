@@ -1,5 +1,6 @@
 package facades;
 
+import entities.Address;
 import entities.Person;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,9 +13,13 @@ public class tester {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
         EntityManager em = emf.createEntityManager();
         
-        Person p1 = new Person("Hercules", "Gudesøn", "87654321");
-        Person p2 = new Person("Archimedes", "Svendsen", "12345678");
-        Person p3 = new Person("Hades", "Flammegreel", "13467964");
+        Address a1 = new Address("Grækergade 2", 2000, "Olympus");
+        Address a2 = new Address("Strandgade", 1000, "Algebraby");
+        Address a3 = new Address("Styxvej 13", 0000, "Underby");
+        
+        Person p1 = new Person("Hercules", "Gudesøn", "87654321", a1);
+        Person p2 = new Person("Archimedes", "Svendsen", "12345678", a2);
+        Person p3 = new Person("Hades", "Flammegreel", "13467964", a3);
         
         em.getTransaction().begin();
         em.persist(p1);

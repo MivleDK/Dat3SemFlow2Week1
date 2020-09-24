@@ -2,6 +2,7 @@ package facades;
 
 import dto.PersonDTO;
 import dto.PersonsDTO;
+import entities.Address;
 import entities.Person;
 import exceptions.MissingInputException;
 import exceptions.PersonNotFoundException;
@@ -70,9 +71,9 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public PersonDTO addPerson(String fName, String lName, String phone) throws MissingInputException {
+    public PersonDTO addPerson(String fName, String lName, String phone, Address address) throws MissingInputException {
         EntityManager em = getEntityManager();
-        Person person = new Person(fName, lName, phone);
+        Person person = new Person(fName, lName, phone, address);
         if (fName.length() == 0 || lName.length() == 0 || phone.length() == 0) {
             throw new MissingInputException("Missing input or wrong format");
         }

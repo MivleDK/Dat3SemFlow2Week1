@@ -56,15 +56,15 @@ public class PersonResource {
     public Response getById(@PathParam("id") int id) throws PersonNotFoundException {
         return Response.ok().entity(GSON.toJson(FACADE.getPerson(id))).build();
     }
-
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    public String addPerson(String person) throws MissingInputException {
-        PersonDTO p = GSON.fromJson(person, PersonDTO.class);
-        PersonDTO newPerson = FACADE.addPerson(p.getFirstName(), p.getLastName(), p.getPhone());
-        return GSON.toJson(newPerson);
-    }
+//
+//    @POST
+//    @Consumes({MediaType.APPLICATION_JSON})
+//    @Produces({MediaType.APPLICATION_JSON})
+//    public String addPerson(String person) throws MissingInputException {
+//        PersonDTO p = GSON.fromJson(person, PersonDTO.class);
+//        PersonDTO newPerson = FACADE.addPerson(p.getFirstName(), p.getLastName(), p.getPhone());
+//        return GSON.toJson(newPerson);
+//    }
 
     @PUT
     @Path("update/{id}")
