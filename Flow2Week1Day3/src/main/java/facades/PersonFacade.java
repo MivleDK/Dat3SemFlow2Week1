@@ -3,6 +3,7 @@ package facades;
 import dto.PersonDTO;
 import dto.PersonsDTO;
 import entities.Person;
+import exceptions.MissingInputException;
 import exceptions.PersonNotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -69,9 +70,12 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public PersonDTO addPerson(String fName, String lName, String phone) {
+    public PersonDTO addPerson(String fName, String lName, String phone) throws MissingInputException {
         EntityManager em = getEntityManager();
         Person person = new Person(fName, lName, phone);
+        if (fName.length() == 0 || lName.length() == 0 || phone.length() == 0) {
+            throw new MissingInputException("Missing input or wrong format");
+        }
         try {
             em.getTransaction().begin();
             em.persist(person);
