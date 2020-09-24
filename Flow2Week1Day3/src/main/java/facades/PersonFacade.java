@@ -6,8 +6,10 @@ import entities.Address;
 import entities.Person;
 import exceptions.MissingInputException;
 import exceptions.PersonNotFoundException;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 public class PersonFacade implements IPersonFacade {
 
@@ -71,12 +73,14 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public PersonDTO addPerson(String fName, String lName, String phone, Address address) throws MissingInputException {
+    public PersonDTO addPerson(String fName, String lName, String phone, String street, String zip, String city) throws MissingInputException {
         EntityManager em = getEntityManager();
-        Person person = new Person(fName, lName, phone, address);
         if (fName.length() == 0 || lName.length() == 0 || phone.length() == 0) {
-            throw new MissingInputException("Missing input or wrong format");
+            throw new MissingInputException("Missing first- or lastname");
         }
+        Person person = new Person(fName, lName, phone);
+        Address address = new Address(street, zip, city);
+        person.setAddress(address);
         try {
             em.getTransaction().begin();
             em.persist(person);
@@ -88,9 +92,10 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public PersonDTO editPerson(PersonDTO p) throws PersonNotFoundException{
+    public PersonDTO editPerson(PersonDTO p) throws PersonNotFoundException {
         EntityManager em = getEntityManager();
-        Person person = em.find(Person.class, p.getId());
+        Person person = em.find(Person.class,
+                p.getId());
         if (person == null) {
             throw new PersonNotFoundException("Person with ID: " + p.getId() + " not found");
         }
@@ -112,7 +117,8 @@ public class PersonFacade implements IPersonFacade {
     @Override
     public PersonDTO deletePerson(int id) throws PersonNotFoundException {
         EntityManager em = emf.createEntityManager();
-        Person pp = em.find(Person.class, id);
+        Person pp = em.find(Person.class,
+                id);
         if (pp == null) {
             throw new PersonNotFoundException("Could not delete, provided id does not exist");
         } else {

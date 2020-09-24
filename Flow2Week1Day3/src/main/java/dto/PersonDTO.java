@@ -1,7 +1,6 @@
 package dto;
 
 import entities.Person;
-import java.util.Date;
 
 public class PersonDTO {
 
@@ -11,7 +10,7 @@ public class PersonDTO {
     private String phone;
     
     private String street;
-    private int zip;
+    private String zip;
     private String city;
 
     public PersonDTO() {
@@ -22,12 +21,30 @@ public class PersonDTO {
         this.lastName = p.getLastName();
         this.phone = p.getPhone();
         this.id = p.getId();
+        this.street = p.getAddress().getStreet();
+        this.city = p.getAddress().getZip();
+        this.zip = p.getAddress().getCity();
     }
 
-    public PersonDTO(String fName, String lName, String phone) {
+    public PersonDTO(String fName, String lName, String phone, String street, String zip, String city) {
         this.firstName = fName;
         this.lastName = lName;
         this.phone = phone;
+        this.street = street;
+        this.zip = zip;
+        this.city = city;        
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     public Integer getId() {

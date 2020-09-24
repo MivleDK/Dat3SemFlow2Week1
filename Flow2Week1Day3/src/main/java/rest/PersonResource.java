@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.PersonDTO;
 import dto.PersonsDTO;
+import entities.Address;
 import exceptions.MissingInputException;
 import exceptions.PersonNotFoundException;
 import utils.EMF_Creator;
@@ -56,15 +57,15 @@ public class PersonResource {
     public Response getById(@PathParam("id") int id) throws PersonNotFoundException {
         return Response.ok().entity(GSON.toJson(FACADE.getPerson(id))).build();
     }
-//
-//    @POST
-//    @Consumes({MediaType.APPLICATION_JSON})
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public String addPerson(String person) throws MissingInputException {
-//        PersonDTO p = GSON.fromJson(person, PersonDTO.class);
-//        PersonDTO newPerson = FACADE.addPerson(p.getFirstName(), p.getLastName(), p.getPhone());
-//        return GSON.toJson(newPerson);
-//    }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public String addPerson(String person) throws MissingInputException {
+        PersonDTO p = GSON.fromJson(person, PersonDTO.class);
+        PersonDTO newPersonDTO = FACADE.addPerson(p.getFirstName(), p.getLastName(), p.getPhone(), p.getStreet(), p.getZip(), p.getCity());
+        return GSON.toJson(newPersonDTO);
+    }
 
     @PUT
     @Path("update/{id}")

@@ -37,17 +37,26 @@ public class PersonFacadeTest {
     //TODO -- Make sure to change the script below to use YOUR OWN entity class
     @BeforeEach
     public void setUp() {
+        Address a1 = new Address("Grækergade 2", "2000", "Olympus");
+        Address a2 = new Address("Strandgade", "1000", "Algebraby");
+        Address a3 = new Address("Styxvej 13", "0000", "Underby");
+
+        Person p1 = new Person("Hercules", "Gudesøn", "87654321");
+        Person p2 = new Person("Archimedes", "Svendsen", "12345678");
+        Person p3 = new Person("Hades", "Flammegreel", "13467964");
+
+        p1.setAddress(a1);
+        p2.setAddress(a2);
+        p3.setAddress(a3);
+
         EntityManager em = emf.createEntityManager();
+
         try {
-
-            Address a1 = new Address("Grækergade 2", 2000, "Olympus");
-            Address a2 = new Address("Strandgade", 1000, "Algebraby");
-            Address a3 = new Address("Styxvej 13", 0000, "Underby");
-
             em.getTransaction().begin();
-            em.persist(new Person("John", "Johnnegut", "12345678", a1));
-            em.persist(new Person("Kirsten", "Sigaard", "12345665", a2));
-            em.persist(new Person("Bubber", "Svingergut", "64796413", a3));
+            em.createQuery("DELETE FROM Person p").executeUpdate();
+            em.persist(p1);
+            em.persist(p2);
+            em.persist(p3);
             em.getTransaction().commit();
         } finally {
             em.close();
