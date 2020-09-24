@@ -4,11 +4,8 @@ import dto.PersonDTO;
 import dto.PersonsDTO;
 import entities.Person;
 import exceptions.PersonNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
 
 public class PersonFacade implements IPersonFacade {
 
@@ -54,9 +51,8 @@ public class PersonFacade implements IPersonFacade {
             Person p = em.find(Person.class, id);
             if (p == null) {
                 throw new PersonNotFoundException("No person with the provided id found");
-            } else {
-                return new PersonDTO(p);
             }
+            return new PersonDTO(p);
         } finally {
             em.close();
         }
