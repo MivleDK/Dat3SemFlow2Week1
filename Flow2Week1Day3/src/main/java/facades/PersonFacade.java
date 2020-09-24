@@ -48,11 +48,15 @@ public class PersonFacade implements IPersonFacade {
     }
 
     @Override
-    public PersonDTO getPerson(int id) throws PersonNotFoundException{
+    public PersonDTO getPerson(int id) throws PersonNotFoundException {
         EntityManager em = emf.createEntityManager();
         try {
             Person p = em.find(Person.class, id);
-            return new PersonDTO(p);
+            if (p == null) {
+                throw new PersonNotFoundException("No person with the provided id found");
+            } else {
+                return new PersonDTO(p);
+            }
         } finally {
             em.close();
         }
@@ -61,7 +65,7 @@ public class PersonFacade implements IPersonFacade {
     @Override
     public PersonsDTO getAllPersons() {
         EntityManager em = getEntityManager();
-        try {   
+        try {
             return new PersonsDTO(em.createQuery("SELECT p FROM Person p", Person.class).getResultList());
         } finally {
             em.close();
@@ -107,17 +111,18 @@ public class PersonFacade implements IPersonFacade {
     @Override
     public PersonDTO deletePerson(int id) throws PersonNotFoundException {
         EntityManager em = emf.createEntityManager();
-        PersonDTO p = getPerson(id);
-
         Person pp = em.find(Person.class, id);
-
-        try {
-            em.getTransaction().begin();
-            em.remove(pp);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
+        if (pp == null) {
+            throw new PersonNotFoundException("Could not delete, provided id does not exist");
+        } else {
+            try {
+                em.getTransaction().begin();
+                em.remove(pp);
+                em.getTransaction().commit();
+            } finally {
+                em.close();
+            }
         }
-        return p;
+        return new PersonDTO(pp);
     }
 }
