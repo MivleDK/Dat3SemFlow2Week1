@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "61ccdf44-f758-4e2e-8508-50ec5aca8875",
+		"name": "Flow2Week1Day3 - GET/ADD REST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAll",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7b8d05a2-c8ca-47c0-ae72-859d0ff27d5a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/jpareststarter/api/persons/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"jpareststarter",
+						"api",
+						"persons",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddPerson",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n    {\r\n    \"firstName\" : \"Jimi\",\r\n    \"lastName\" : \"Hendrix\",\r\n    \"phone\" : \"12345688\"\r\n    }"
+				},
+				"url": {
+					"raw": "localhost:8080/jpareststarter/api/persons/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"jpareststarter",
+						"api",
+						"persons",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditPerson",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : \"1\",\r\n    \"firstName\" : \"Hercules\",\r\n    \"lastName\" : \"Udkørtius\",\r\n    \"phone\" : \"12345688\"\r\n}    \r\n\r\n"
+				},
+				"url": {
+					"raw": "localhost:8080/jpareststarter/api/persons/update/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"jpareststarter",
+						"api",
+						"persons",
+						"update",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeletePerson",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/jpareststarter/api/persons/delete/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"jpareststarter",
+						"api",
+						"persons",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
