@@ -1,5 +1,6 @@
 package rest;
 
+import dto.PersonDTO;
 import entities.Address;
 import entities.Person;
 import utils.EMF_Creator;
@@ -9,7 +10,6 @@ import io.restassured.parsing.Parser;
 import java.net.URI;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.ws.rs.core.UriBuilder;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.util.HttpStatus;
@@ -19,7 +19,6 @@ import static org.hamcrest.Matchers.equalTo;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 //Uncomment the line below, to temporarily disable this test
 //@Disabled
@@ -67,17 +66,16 @@ public class PersonResourceTest {
         Address a1 = new Address("Grækergade 2", "2000", "Olympus");
         Address a2 = new Address("Strandgade", "1000", "Algebraby");
         Address a3 = new Address("Styxvej 13", "0000", "Underby");
-        
+
         Person p1 = new Person("Hercules", "Gudesøn", "87654321");
         Person p2 = new Person("Archimedes", "Svendsen", "12345678");
         Person p3 = new Person("Hades", "Flammegreel", "13467964");
-        
+
         p1.setAddress(a1);
         p2.setAddress(a2);
         p3.setAddress(a3);
 
         EntityManager em = emf.createEntityManager();
-
 
         try {
             em.getTransaction().begin();
@@ -117,4 +115,20 @@ public class PersonResourceTest {
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("count", equalTo(3));
     }
+
+//    @Test
+//    public void testGetPerson() {
+//
+//        PersonDTO pDTO = new PersonDTO("Hans", "Testesen", "87654321", "testgade 2", "3000", "testcity");
+//
+//        int expected = Math.toIntExact(pDTO.getId());
+//        given()
+//                .contentType("application/json")
+//                .when()
+//                .get("/person/" + pDTO.getId())
+//                .then()
+//                .assertThat()
+//                .body("id", equalTo(expected));
+//    }
+
 }

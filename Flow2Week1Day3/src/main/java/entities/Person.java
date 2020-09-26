@@ -3,20 +3,27 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Person.deleteAllRows", query = "DELETE FROM Person"),
+    @NamedQuery(name ="Person.getAllRows", query = "SELECT p FROM Person p")})
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="P_ID")
     private Integer id;
     private String firstName;
     private String lastName;
@@ -41,24 +48,6 @@ public class Person implements Serializable {
     public Person() {
     }
 
-//    public Person(String firstName, String lastName, String phone, String street, String zip, String city) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.phone = phone;
-//        this.created = new Date();
-//        this.lastEdited = new Date();
-//        this.address = new Address(street, zip, city);
-//    }
-//
-//    public Person(String firstName, String lastName, String phone, Address a) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.phone = phone;
-//        this.created = new Date();
-//        this.lastEdited = new Date();
-//        this.address = new Address(a.getStreet(), a.getZip(), a.getZip());
-//    }
-
     public Person(String firstName, String lastName, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -66,7 +55,7 @@ public class Person implements Serializable {
         this.created = new Date();
         this.lastEdited = new Date();
     }
-
+    
     public Address getAddress() {
         return address;
     }

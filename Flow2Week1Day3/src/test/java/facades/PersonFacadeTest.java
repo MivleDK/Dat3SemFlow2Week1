@@ -1,10 +1,14 @@
 package facades;
 
+import dto.PersonDTO;
 import entities.Address;
 import entities.Person;
+import exceptions.PersonNotFoundException;
 import utils.EMF_Creator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,7 +57,8 @@ public class PersonFacadeTest {
 
         try {
             em.getTransaction().begin();
-            em.createQuery("DELETE FROM Person p").executeUpdate();
+            em.createQuery("DELETE FROM Person").executeUpdate();
+            em.createQuery("DELETE FROM Address").executeUpdate();
             em.persist(p1);
             em.persist(p2);
             em.persist(p3);
@@ -74,4 +79,23 @@ public class PersonFacadeTest {
         assertEquals(3, facade.getPersonCount(), "Expects three rows in the database");
     }
 
+    @Test
+    public void testAddPerson() {
+        Person person = new Person("hans", "testesen", "12345678");
+        assertThat(person.getFirstName(), equalTo("hans"));
+        assertThat(person.getLastName(), equalTo("testesen"));
+        assertThat(person.getPhone(), equalTo("12345678"));
+    }
+
+    @Test
+    public void testGetPersonById() throws PersonNotFoundException {
+        Person p1 = new Person("Hercules", "Testmand", "12345678");
+        assertEquals("Testmand", p1.getLastName());
+    }
+
+    @Test
+    public void testGetPersonStreetDTO() {
+        PersonDTO p1 = new PersonDTO("Hercules", "Testmand", "12345678", "testgade 2", "3000", "testCity");
+        assertEquals("testgade 2", p1.getStreet());
+    }
 }

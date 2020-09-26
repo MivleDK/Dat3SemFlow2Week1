@@ -37,7 +37,6 @@ public class PersonFacade implements IPersonFacade {
         return emf.createEntityManager();
     }
 
-    //TODO Remove/Change this before use
     public long getPersonCount() {
         EntityManager em = emf.createEntityManager();
         try {
@@ -66,21 +65,19 @@ public class PersonFacade implements IPersonFacade {
     public PersonsDTO getAllPersons() {
         EntityManager em = getEntityManager();
         try {
-            return new PersonsDTO(em.createQuery("SELECT p FROM Person p", Person.class).getResultList());
+            return new PersonsDTO(em.createNamedQuery("Person.getAllRows").getResultList());
         } finally {
             em.close();
         }
     }
 
     @Override
-    public PersonDTO addPerson(String fName, String lName, String phone, String street, String zip, String city) throws MissingInputException {
-        EntityManager em = getEntityManager();
-        if (fName.length() == 0 || lName.length() == 0 || phone.length() == 0) {
-            throw new MissingInputException("Missing first- or lastname");
-        }
+    public PersonDTO addPerson(String fName, String lName, String phone) throws MissingInputException {
+        EntityManager em = emf.createEntityManager();
         Person person = new Person(fName, lName, phone);
-        Address address = new Address(street, zip, city);
-        person.setAddress(address);
+        if ((fName.length() == 0 || lName.length() == 0 || phone.length() == 0)) {
+            throw new MissingInputException("Missing input");
+        }
         try {
             em.getTransaction().begin();
             em.persist(person);
@@ -89,24 +86,21 @@ public class PersonFacade implements IPersonFacade {
             em.close();
         }
         return new PersonDTO(person);
+
     }
 
     @Override
-    public PersonDTO editPerson(PersonDTO p) throws PersonNotFoundException {
+    public PersonDTO editPerson(PersonDTO p) throws MissingInputException {
         EntityManager em = getEntityManager();
-        Person person = em.find(Person.class,
-                p.getId());
-        if (person == null) {
-            throw new PersonNotFoundException("Person with ID: " + p.getId() + " not found");
+        if ((p.getFirstName().length() == 0 || p.getLastName().length() == 0 || p.getPhone().length() == 0)) {
+            throw new MissingInputException("Missing input or wrong format");
         }
-        person.setFirstName(p.getFirstName());
-        person.setLastName(p.getLastName());
-        person.setPhone(p.getPhone());
-        person.setLastEdited();
-
         try {
             em.getTransaction().begin();
-            em.merge(person);
+            Person person = em.find(Person.class, p.getId());
+            person.setFirstName(p.getFirstName());
+            person.setLastName(p.getLastName());
+            person.setPhone(p.getPhone());
             em.getTransaction().commit();
             return new PersonDTO(person);
         } finally {

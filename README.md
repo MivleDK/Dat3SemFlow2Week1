@@ -3,6 +3,3 @@
 ## Flow 2 week 1 day 5
 Address functionality now cascades with the Person entity.
 Deleting a person from the DB also removes the address.
-
-Part 5 (Red) was not completed
-

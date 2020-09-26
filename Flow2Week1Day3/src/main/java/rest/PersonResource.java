@@ -54,8 +54,8 @@ public class PersonResource {
     @Path("/{id}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getById(@PathParam("id") int id) throws PersonNotFoundException {
-        return Response.ok().entity(GSON.toJson(FACADE.getPerson(id))).build();
+    public String getById(@PathParam("id") int id) throws PersonNotFoundException {
+        return GSON.toJson(FACADE.getPerson(id));
     }
 
     @POST
@@ -63,7 +63,7 @@ public class PersonResource {
     @Produces({MediaType.APPLICATION_JSON})
     public String addPerson(String person) throws MissingInputException {
         PersonDTO p = GSON.fromJson(person, PersonDTO.class);
-        PersonDTO newPersonDTO = FACADE.addPerson(p.getFirstName(), p.getLastName(), p.getPhone(), p.getStreet(), p.getZip(), p.getCity());
+        PersonDTO newPersonDTO = FACADE.addPerson(p.getFirstName(), p.getLastName(), p.getPhone());
         return GSON.toJson(newPersonDTO);
     }
 
@@ -71,8 +71,9 @@ public class PersonResource {
     @Path("update/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public String updatePerson(@PathParam("id") Long id, String person) throws PersonNotFoundException {
+    public String updatePerson(@PathParam("id") Long id, String person) throws MissingInputException {
         PersonDTO personDTO = GSON.fromJson(person, PersonDTO.class);
+        personDTO.setId(Math.toIntExact(id));
         PersonDTO updatePerson = FACADE.editPerson(personDTO);
         return GSON.toJson(updatePerson);
     }
@@ -83,6 +84,6 @@ public class PersonResource {
     @Consumes({MediaType.APPLICATION_JSON})
     public String deletePerson(@PathParam("id") int id) throws PersonNotFoundException {
         PersonDTO pDelete = FACADE.deletePerson(id);
-        return "{\"status\" : \"deleted\"}";
+        return GSON.toJson(pDelete) + "{\n\t\"status\" : \"deleted\"}";
     }
 }

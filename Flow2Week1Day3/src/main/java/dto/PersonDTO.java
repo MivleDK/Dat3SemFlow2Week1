@@ -8,7 +8,7 @@ public class PersonDTO {
     private String firstName;
     private String lastName;
     private String phone;
-    
+
     private String street;
     private String zip;
     private String city;
@@ -21,9 +21,6 @@ public class PersonDTO {
         this.lastName = p.getLastName();
         this.phone = p.getPhone();
         this.id = p.getId();
-        this.street = p.getAddress().getStreet();
-        this.city = p.getAddress().getZip();
-        this.zip = p.getAddress().getCity();
     }
 
     public PersonDTO(String fName, String lName, String phone, String street, String zip, String city) {
@@ -32,7 +29,7 @@ public class PersonDTO {
         this.phone = phone;
         this.street = street;
         this.zip = zip;
-        this.city = city;        
+        this.city = city;
     }
 
     public String getStreet() {
@@ -49,6 +46,10 @@ public class PersonDTO {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFirstName() {
